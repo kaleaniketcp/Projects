@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Products from "../components/Products";
 import { useLocation } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const ProductList = () => {
   const location = useLocation();
@@ -55,6 +56,7 @@ const ProductList = () => {
         </div>
       </div>
       <Products cat={cat} filters={filters} sort={sort} />
+      <Footer />
     </div>
   );
 };

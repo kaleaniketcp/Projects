@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
+import Footer from "../components/Footer";
 
 const Product = () => {
   const location = useLocation();
@@ -79,6 +80,7 @@ const Product = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -6,10 +6,11 @@ import Navbar from "../components/Navbar";
 import { Add, Remove } from "@material-ui/icons";
 import { useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { userRequest } from "../requestMethods";
 import Product from "./Product";
+import Footer from "../components/Footer";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -36,8 +37,14 @@ const Cart = () => {
     stripeToken && makeRequest();
   }, [stripeToken, navigate]);
 
-  console.log(stripeToken);
-
+  // const handleQuantity = (type) => {
+  //   if (type === "dec") {
+  //     quantity > 1 && setQuantity(quantity - 1);
+  //   } else {
+  //     setQuantity(quantity + 1);
+  //   }
+  // };
+  const quantity = useSelector((state) => state.cart.quantity);
   return (
     <div>
       <Navbar />
@@ -45,9 +52,11 @@ const Cart = () => {
       <div className="cart_wrapper">
         <div className="title">Your Bag</div>
         <div className="cart_top">
-          <div className="cart_topbutton">Continue Shopping</div>
+          <Link to="/">
+            <div className="cart_topbutton">Continue Shopping</div>
+          </Link>
           <div>
-            <div className="cart_toptext">Shopping Bag(3)</div>
+            <div className="cart_toptext">Shopping Bag({quantity})</div>
             <div className="cart_toptext">Your Wishlist(0)</div>
           </div>
           <div className="cart_topbutton">Checkout Now</div>
@@ -72,9 +81,12 @@ const Cart = () => {
                 </div>
                 <div className="cart_pricedetail">
                   <div className="cart_prodamountcont">
-                    <Add />
-                    <div className="cart_prodamount">{product.quantity}</div>
+                    {/* <Remove onClick={() => handleQuantity("dec")} /> */}
                     <Remove />
+                    <div className="cart_prodamount">{product.quantity}</div>
+                    {/* <div className="cart_prodamount">{quantity}</div> */}
+                    {/* <Add onClick={() => handleQuantity("inc")} /> */}
+                    <Add />
                   </div>
                   <div className="cart_productprice">
                     Rs {product.price * product.quantity}
@@ -87,7 +99,7 @@ const Cart = () => {
             <div className="cart_summarytitle">Order Summary</div>
             <div className="cart_summaryitem">
               <span>Subtotal</span>
-              <span>Rs 800</span>
+              <span>Rs {cart.total}</span>
             </div>
             <div className="cart_summaryitem">
               <span>Estimated Shipping</span>
@@ -116,6 +128,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
