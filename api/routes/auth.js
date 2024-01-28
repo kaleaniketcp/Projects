@@ -4,7 +4,7 @@ const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 
 //REGISTER
-router.post("/register", async (req, res) => {
+router.post("/register", async (req, res, next) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
 });
 
 //LOGIN
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
       .status(200)
       .send({ details: { ...otherDetails }, isAdmin, token });
   } catch (err) {
-    res.status(500).send(err);
+    next(err);
   }
 });
 
