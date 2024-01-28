@@ -40,20 +40,23 @@ router.post("/login", async (req, res) => {
       return res.status(401).json("Wrong Credentials!");
     }
 
-    const accessToken = jwt.sign(
+    const token = jwt.sign(
       {
         id: user._id,
         isAdmin: user.isAdmin,
       },
-      process.env.JWT_SEC,
-      { expiresIn: "3d" }
+      process.env.JWT_SEC
     );
 
-    const { password, ...others } = user._doc;
-
-    res.status(200).json({ ...others, accessToken });
+    const { password, isAdmin, ...otherDetails } = user._doc;
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ details: { ...otherDetails }, isAdmin, token });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).send(err);
   }
 });
 
