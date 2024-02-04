@@ -40,13 +40,13 @@ const Write = () => {
     console.log(state);
     try {
       state
-        ? await axios.patch(`/post/${state._id}`, {
+        ? await axios.patch(`/api/post/${state._id}`, {
             title,
             desc: value,
             cat,
             img: file ? imgUrl : "",
           })
-        : await axios.post("/post/", {
+        : await axios.post("/api/post/", {
             title,
             desc: value,
             cat,

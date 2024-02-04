@@ -9,20 +9,21 @@ const Home = () => {
 
   const cat = useLocation().search;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (cat) {
-          const res = await axios.get(`/post${cat}`);
-          setPosts(res.data);
-        } else {
-          const res = await axios.get(`/post/`);
-          setPosts(res.data);
-        }
-      } catch (err) {
-        console.log(err);
+  const fetchData = async () => {
+    try {
+      if (cat) {
+        const res = await axios.get(`/api/post${cat}`);
+        setPosts(res.data);
+      } else {
+        const res = await axios.get(`/api/post/`);
+        setPosts(res.data);
       }
-    };
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [cat]);
 
